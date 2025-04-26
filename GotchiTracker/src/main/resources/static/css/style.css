@@ -6,3 +6,11 @@ body {
 h1 {
     color: #0077cc;
 }
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+}

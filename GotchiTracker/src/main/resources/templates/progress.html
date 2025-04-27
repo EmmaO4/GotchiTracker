@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise Progress Tracker - Retro Edition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Press Start 2P', system-ui, sans-serif;
+      background-color: black;
+      color: #39ff14;
+      margin: 20px;
+      text-shadow: 0 0 5px #39ff14, 0 0 10px #00f0ff;
+      animation: crtFlicker 1.5s infinite alternate;
+    }
+
+    @keyframes crtFlicker {
+      0% { opacity: 1; }
+      50% { opacity: 0.95; }
+      100% { opacity: 1; }
+    }
+
+    h1 {
+      color: #ff00ff;
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+    }
+
+    form {
+      margin-bottom: 30px;
+      background-color: #1a1a1a;
+      padding: 20px;
+      border: 2px solid #ff00ff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ff00ff;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    input, button {
+      font-family: 'Press Start 2P', system-ui, sans-serif;
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border-radius: 5px;
+      border: 2px solid #00f0ff;
+      background-color: black;
+      color: #00f0ff;
+      font-size: 0.8rem;
+    }
+
+    button {
+      background-color: #ff00ff;
+      color: black;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #00f0ff;
+      color: black;
+    }
+
+    .day-divider {
+      margin-top: 40px;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 3px dashed #ff00ff;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    li {
+      background-color: #222;
+      margin: 10px 0;
+      padding: 15px;
+      border: 2px solid #00f0ff;
+      border-radius: 5px;
+      box-shadow: 0 0 5px #00f0ff;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>🏋️ GOTCHI TRACKER</h1>
+
+  <form id="exerciseForm">
+    <input type="text" id="exerciseName" placeholder="Exercise Name" required><br>
+    <input type="number" id="reps" placeholder="Number of Reps" required><br>
+    <button type="submit">Add Exercise</button>
+  </form>
+
+  <div id="progressContainer"></div>
+  
+  <p><a href="/" style="color: #00f0ff;">← Back to Home</a></p>
+
+  <script>
+    const form = document.getElementById('exerciseForm');
+    const progressContainer = document.getElementById('progressContainer');
+
+    function getToday() {
+      const today = new Date();
+      return today.toDateString(); // e.g., "Sat Apr 27 2025"
+    }
+
+    function createDaySection(dateStr) {
+      const section = document.createElement('div');
+      section.id = `day-${dateStr}`;
+      
+      const divider = document.createElement('div');
+      divider.className = 'day-divider';
+      divider.textContent = dateStr;
+      
+      const list = document.createElement('ul');
+      list.className = 'exerciseList';
+
+      section.appendChild(divider);
+      section.appendChild(list);
+
+      progressContainer.appendChild(section);
+    }
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('exerciseName').value;
+      const reps = document.getElementById('reps').value;
+      const today = getToday();
+      
+      let daySection = document.getElementById(`day-${today}`);
+      if (!daySection) {
+        createDaySection(today);
+        daySection = document.getElementById(`day-${today}`);
+      }
+
+      const list = daySection.querySelector('ul');
+
+      const li = document.createElement('li');
+      li.textContent = `${name} - ${reps} reps`;
+      list.appendChild(li);
+
+      form.reset();
+    });
+  </script>
+
+</body>
+</html>
